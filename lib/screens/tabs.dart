@@ -20,7 +20,7 @@ class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   List<Meal> favoritedMeals = [];
 
-  final Map<Filter, bool> _selectedFilters = {
+  Map<Filter, bool> _selectedFilters = {
     Filter.glutenFree: false,
     Filter.lactoseFree: false,
     Filter.vegetarian: false,
@@ -56,18 +56,22 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     // Close the drawer
     Navigator.of(context).pop();
     if (identifier == 'filters') {
-      Navigator.of(context).push(
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
           builder: (ctx) => FiltersScreen(
             currentFilters: _selectedFilters,
           ),
         ),
       );
-      setState(() {});
+      setState(() {
+        // [??] checks whether the value in front of it is [null] and uses the
+        // specified fall-back value if this is the case
+        _selectedFilters = result ?? _selectedFilters;
+      });
     }
   }
 
