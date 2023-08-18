@@ -8,13 +8,13 @@ class MealItem extends StatelessWidget {
   const MealItem({
     super.key,
     required this.meal,
-    required this.favoritedMeals,
-    required this.onToggleMealFavoriteStatus,
+    // required this.favoritedMeals,
+    // required this.onToggleMealFavoriteStatus,
   });
 
   final Meal meal;
-  final List<Meal> favoritedMeals;
-  final Function(Meal meal) onToggleMealFavoriteStatus;
+  // final List<Meal> favoritedMeals;
+  // final Function(Meal meal) onToggleMealFavoriteStatus;
 
   // capitalize the first letter of the complexity
   String get complexityText {
@@ -46,9 +46,10 @@ class MealItem extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (ctx) => MealDetailsScreen(
-                  meal: meal,
-                  favoritedMeals: favoritedMeals,
-                  onToggleMealFavoriteStatus: onToggleMealFavoriteStatus),
+                meal: meal,
+                // favoritedMeals: favoritedMeals,
+                // onToggleMealFavoriteStatus: onToggleMealFavoriteStatus),
+              ),
             ),
           );
         },

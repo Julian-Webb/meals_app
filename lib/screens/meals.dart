@@ -7,14 +7,14 @@ class MealsScreen extends StatelessWidget {
     super.key,
     this.title,
     required this.meals,
-    required this.favoritedMeals,
-    required this.onToggleMealFavoriteStatus,
+    // required this.favoritedMeals,
+    // required this.onToggleMealFavoriteStatus,
   });
 
   final String? title;
   final List<Meal> meals;
-  final List<Meal> favoritedMeals;
-  final Function(Meal meal) onToggleMealFavoriteStatus;
+  // final List<Meal> favoritedMeals;
+  // final Function(Meal meal) onToggleMealFavoriteStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +47,8 @@ class MealsScreen extends StatelessWidget {
         itemCount: meals.length,
         itemBuilder: (ctx, index) => MealItem(
           meal: meals[index],
-          favoritedMeals: favoritedMeals,
-          onToggleMealFavoriteStatus: onToggleMealFavoriteStatus,
+          // favoritedMeals: favoriteMeals,
+          // onToggleMealFavoriteStatus: onToggleMealFavoriteStatus,
         ),
       );
     }
