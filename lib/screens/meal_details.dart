@@ -15,7 +15,8 @@ class MealDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // meal title in the app bar and below the meal image
+    final isFavorite = ref.watch(favoriteMealsProvider).contains(meal);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,35 +28,54 @@ class MealDetailsScreen extends ConsumerWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              // .notifier gives us access to the notifier class
-              // (FavoriteMealsNotifier)
-              bool wasFavorited = ref
-                  .read(favoriteMealsProvider.notifier)
-                  .toggleMealFavoriteStatus(meal);
-              ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(wasFavorited
-                      ? 'Meal added to favorites'
-                      : 'Meal removed from favorites'),
+              onPressed: () {
+                // .notifier gives us access to the notifier class
+                // (FavoriteMealsNotifier)
+                bool wasFavorited = ref
+                    .read(favoriteMealsProvider.notifier)
+                    .toggleMealFavoriteStatus(meal);
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(wasFavorited
+                        ? 'Meal added to favorites'
+                        : 'Meal removed from favorites'),
+                  ),
+                );
+              },
+              // AnimatedSwitcher will start the animation when the child changes
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  // child is the Widget that will be animated; it's the child
+                  // we set below to the icon
+                  return RotationTransition(
+                    turns:
+                        Tween<double>(begin: 0.8, end: 1.0).animate(animation),
+                    child: child,
+                  );
+                },
+                child: Icon(
+                  isFavorite ? Icons.star : Icons.star_border_outlined,
+                  // we need a key because otherwise the AnimatedSwitcher will
+                  // not detect a change because the Icons are of the same
+                  // type
+                  key: ValueKey(isFavorite),
                 ),
-              );
-            },
-            icon: Icon(ref.watch(favoriteMealsProvider).contains(meal)
-                ? Icons.star
-                : Icons.star_border_outlined),
-          )
+              ))
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              height: 300,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 14),
             Text(

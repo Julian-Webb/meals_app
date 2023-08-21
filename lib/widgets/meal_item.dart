@@ -55,16 +55,20 @@ class MealItem extends StatelessWidget {
         },
         // Stack can be used to position multiple widgets above each other
         child: Stack(
+          // we start with the one on the bottom of the stack
+          // (in the background)
           children: [
-            // we start with the one on the bottom of the stack
-            // (in the background)
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
-              // makes the image not be distorted but fit into the box
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
+            // The Hero widget is used for animations accross different screens
+            Hero(
+              tag: meal.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(meal.imageUrl),
+                // makes the image not be distorted but fit into the box
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+              ),
             ),
             // [Positioned] let's us set where the child should be positioned
             // on the parent widget
